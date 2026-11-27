@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuisine – La Réginade</title>
+<style>
+  :root { --fond:#1f2a2b; --papier:#fbf6ea; --encre:#2a2118; --nouveau:#f2a900; --ok:#2f9e44; --doux:#9fb0ad; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--fond); color:var(--papier); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+  header { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:16px 20px; border-bottom:1px solid #3a4a4b; }
+  h1 { margin:0; font-size:1.5rem; font-weight:700; }
+  #compteur { color:var(--doux); flex:1; }
+  button { font:inherit; cursor:pointer; border:0; border-radius:8px; padding:10px 16px; font-weight:600; }
+  button:focus-visible { outline:3px solid var(--nouveau); outline-offset:2px; }
+  #son { background:#3a4a4b; color:var(--papier); }
+  #son.actif { background:var(--ok); }
+  main { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; padding:20px; }
+  .ticket { background:var(--papier); color:var(--encre); border-radius:6px; padding:16px; border-top:8px solid var(--nouveau); display:flex; flex-direction:column; gap:10px; }
+  .ticket .haut { display:flex; justify-content:space-between; align-items:baseline; }
+  .ticket .table { font-size:1.6rem; font-weight:800; }
+  .ticket .heure { color:#6b5d4d; }
+  .ticket ul { margin:0; padding:0; list-style:none; font-size:1.1rem; }
+  .ticket li { padding:4px 0; border-bottom:1px dashed #d8ccb6; }
+  .note { background:#fff1c9; padding:8px 10px; border-radius:4px; }
+  .total { font-weight:700; }
+  .ticket button { background:var(--ok); color:#fff; font-size:1.05rem; }
+  #message { grid-column:1/-1; color:var(--doux); }
+  #message.erreur { color:#ff8a80; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cuisine</h1>
+  <span id="compteur" aria-live="polite"></span>
+  <button id="son" type="button">Activer le son</button>
+</header>
+<main id="liste"><p id="message">Connexion en cours…</p></main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+  import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc }
+    from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxiiyuWD1b4fOixGQAbaLUpKaUC-ieZ3o",
+    authDomain: "la-reginade.firebaseapp.com",
+    projectId: "la-reginade",
+    storageBucket: "la-reginade.firebasestorage.app",
+    messagingSenderId: "515732888956",
+    appId: "1:515732888956:web:aec13bca6c23fdc03a18f9"
+  };
+
+  const db = getFirestore(initializeApp(firebaseConfig));
+  const liste = document.getElementById("liste");
+  const compteur = document.getElementById("compteur");
+  const boutonSon = document.getElementById("son");
+
+  // --- Son d'alerte (le navigateur exige un clic pour l'autoriser)
+  let audio = null;
+  boutonSon.addEventListener("click", () => {
+    if (!audio) {
+      audio = new (window.AudioContext || window.webkitAudioContext)();
+      boutonSon.textContent = "Son activé";
+      boutonSon.classList.add("actif");
+      bip();
+    }
+  });
+  function bip() {
+    if (!audio) return;
+    [0, 0.25].forEach(delai => {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(audio.destination);
+      g.gain.setValueAtTime(0.2, audio.currentTime + delai);
+      g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + delai + 0.2);
+      o.start(audio.currentTime + delai); o.stop(audio.currentTime + delai + 0.2);
+    });
+  }
+
+  // --- Affichage
+  function creerTicket(id, c) {
+    const t = document.createElement("article");
+    t.className = "ticket";
+
+    const haut = document.createElement("div");
+    haut.className = "haut";
+    const table = document.createElement("span");
+    table.className = "table";
+    table.textContent = "Table " + (c.table || "?");
+    const heure = document.createElement("span");
+    heure.className = "heure";
+    const d = c.createdAt && c.createdAt.toDate ? c.createdAt.toDate() : new Date();
+    heure.textContent = d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    haut.append(table, heure);
+
+    const ul = document.createElement("ul");
+    (c.items || []).forEach(i => {
+      const li = document.createElement("li");
+      li.textContent = (i.qte || 1) + " × " + i.nom;
+      ul.append(li);
+    });
+
+    t.append(haut, ul);
+
+    if (c.note) {
+      const n = document.createElement("div");
+      n.className = "note";
+      n.textContent = c.note;
+      t.append(n);
+    }
+    if (c.total != null) {
+      const tot = document.createElement("div");
+      tot.className = "total";
+      tot.textContent = "Total : " + Number(c.total).toLocaleString("fr-FR") + " FCFA";
+      t.append(tot);
+    }
+
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = "Terminée";
+    b.addEventListener("click", async () => {
+      b.disabled = true;
+      try { await updateDoc(doc(db, "commandes", id), { status: "terminee" }); }
+      catch (e) { b.disabled = false; alert("Impossible de terminer la commande : " + e.message); }
+    });
+    t.append(b);
+    return t;
+  }
+
+  let premiereLecture = true;
+  const q = query(collection(db, "commandes"), orderBy("createdAt", "asc"));
+  onSnapshot(q, snap => {
+    if (!premiereLecture && snap.docChanges().some(ch => ch.type === "added" && !ch.doc.metadata.hasPendingWrites)) bip();
+    premiereLecture = false;
+
+    const enCours = snap.docs.filter(d => d.data().status !== "terminee");
+    liste.replaceChildren();
+    if (!enCours.length) {
+      const p = document.createElement("p");
+      p.id = "message";
+      p.textContent = "Aucune commande en attente.";
+      liste.append(p);
+    }
+    enCours.forEach(d => liste.append(creerTicket(d.id, d.data())));
+    compteur.textContent = enCours.length + " commande(s) en attente";
+  }, err => {
+    liste.replaceChildren();
+    const p = document.createElement("p");
+    p.id = "message"; p.className = "erreur";
+    p.textContent = "Erreur de connexion : " + err.message;
+    liste.append(p);
+  });
+</script>
+</body>
+</html>
