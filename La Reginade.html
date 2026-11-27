@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!-- GitHub : https://github.com/henryemmanuel01 -->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Réginade</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Trebuchet MS", Verdana, sans-serif; background: #fff8e7; color: #3b2f1a; line-height: 1.6; }
+  .demo { background: #3b2f1a; color: #fff8e7; text-align: center; padding: 8px; font-size: .85rem; }
+  nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding: 16px 6%; background: #e9d8a6; }
+  nav strong { color: #3b2f1a; font-size: 1.2rem; }
+  nav { align-items: center; }
+  .logo-nav { width: 64px; height: 64px; flex-shrink: 0; }
+  nav a { color: #3b2f1a; margin-right: 14px; text-decoration: none; font-weight: bold; }
+  header { background: #e9d8a6; color: #3b2f1a; padding: 56px 6% 72px; border-bottom: 10px solid #b8860b; }
+  h1 { font-family: Georgia, serif; font-size: clamp(2.2rem, 8vw, 4rem); line-height: 1.1; margin: 0 0 12px; max-width: 12em; }
+  h2 { font-family: Georgia, serif; font-size: 1.8rem; margin: 0 0 16px; }
+  .bouton { display: inline-block; margin-top: 12px; padding: 13px 24px; background: #3b2f1a; color: #fff8e7; border-radius: 6px; font-weight: bold; text-decoration: none; }
+  section { max-width: 760px; margin: 0 auto; padding: 48px 24px; }
+  .plat { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 2px dotted #b9a36a; }
+  .plat b { white-space: nowrap; color: #8a5a00; }
+  :focus-visible { outline: 3px solid #7a3e00; outline-offset: 3px; }
+  footer { background: #3b2f1a; color: #fff8e7; text-align: center; padding: 20px; }
+  .lettrine { font-family: Georgia, serif; font-size: 2.8em; line-height: 1; color: #8a5a00; margin-right: 2px; }
+  h1 .lettrine { font-size: 2.2em; }
+  nav strong { font-family: Georgia, serif; }
+  h3 { margin: 28px 0 4px; color: #8a5a00; font-size: 1.2rem; border-bottom: 3px solid #e9d8a6; }
+  .plat { align-items: center; flex-wrap: wrap; }
+  .plat span:first-child { flex: 1; min-width: 150px; }
+  .qte button { width: 40px; height: 40px; border: 0; border-radius: 6px; background: #e9d8a6; color: #3b2f1a; font-size: 1.3rem; cursor: pointer; }
+  .qte output { display: inline-block; width: 34px; text-align: center; font-weight: bold; }
+  #commande input, #commande textarea { width: 100%; padding: 12px; margin: 4px 0 12px; font: inherit; border: 1px solid #b9a36a; border-radius: 6px; }
+  #commande button { border: 0; font: inherit; font-weight: bold; cursor: pointer; }
+  #panier { position: sticky; bottom: 0; display: block; text-align: center; background: #3b2f1a; color: #fff8e7; padding: 14px; font-weight: bold; text-decoration: none; }
+  summary { cursor: pointer; margin: 28px 0 4px; padding: 12px; background: #e9d8a6; border-radius: 6px; font-weight: bold; font-size: 1.2rem; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "▼"; font-size: .8rem; transition: transform .2s; }
+  details[open] > summary::after { transform: rotate(180deg); }
+</style>
+</head>
+<body>
+  <div class="demo">Dédicace à Ina Coulibaly, réalisé par Innov’Dev</div>
+
+  <nav>
+    <strong aria-label="La Réginade">La <span class="lettrine">R</span>éginade</strong>
+    <svg class="logo-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Logo La Réginade" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <path id="arcHaut" d="M 60 200 A 140 140 0 0 1 340 200"/>
+    <path id="arcBas" d="M 52 200 A 148 148 0 0 0 348 200"/>
+  </defs>
+
+  <!-- Fond et anneaux -->
+  <circle cx="200" cy="200" r="190" fill="#3b2f1a"/>
+  <circle cx="200" cy="200" r="178" fill="none" stroke="#b8860b" stroke-width="4"/>
+  <circle cx="200" cy="200" r="112" fill="#fff8e7"/>
+  <circle cx="200" cy="200" r="104" fill="none" stroke="#b8860b" stroke-width="2.5"/>
+
+  <!-- Texte en arc -->
+  <text font-family="Georgia, serif" font-size="34" font-weight="bold" fill="#e9d8a6" letter-spacing="6" text-anchor="middle">
+    <textPath href="#arcHaut" startOffset="50%">LA RÉGINADE</textPath>
+  </text>
+  <text font-family="Trebuchet MS, Verdana, sans-serif" font-size="17" fill="#e9d8a6" letter-spacing="3" text-anchor="middle">
+    <textPath href="#arcBas" startOffset="50%" side="right">AFRIQUE · EUROPE</textPath>
+  </text>
+
+  <!-- Petites étoiles de séparation -->
+  <circle cx="46" cy="200" r="5" fill="#b8860b"/>
+  <circle cx="354" cy="200" r="5" fill="#b8860b"/>
+
+  <!-- Vapeur -->
+  <g fill="none" stroke="#b8860b" stroke-width="5" stroke-linecap="round">
+    <path d="M170 160 q-10 -14 0 -28 q10 -14 0 -28"/>
+    <path d="M200 164 q-10 -14 0 -28 q10 -14 0 -28"/>
+    <path d="M230 160 q-10 -14 0 -28 q10 -14 0 -28"/>
+  </g>
+
+  <!-- Bol -->
+  <path d="M135 190 H265 A65 65 0 0 1 135 190 Z" fill="#3b2f1a"/>
+  <rect x="128" y="184" width="144" height="10" rx="5" fill="#b8860b"/>
+  <rect x="172" y="258" width="56" height="10" rx="5" fill="#8a5a00"/>
+
+  <!-- Motif sur le bol -->
+  <g fill="#e9d8a6">
+    <path d="M165 210 l8 8 l-8 8 l-8 -8 z"/>
+    <path d="M200 216 l8 8 l-8 8 l-8 -8 z"/>
+    <path d="M235 210 l8 8 l-8 8 l-8 -8 z"/>
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpmZGZhNTI2ZC01N2M0LTRkNzEtYjA0Zi1iNjQyNTMxMDFlMDUAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaGtD/7T6FeE5ZBtZeMydtrwAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpjNDcwNDcwNS04MzgyLTRlNDQtYTU1Yy0wOWFmYTZhYzg4NTNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNos6JpMkuHQsYxOhSj5ZidHQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggQZPdljyG1vrfhzIeOkblShup2vCXEpTKYv051pARprWkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaCbPW+H6IKJeZJvSD8FMqVkAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIEZsXpx+n8/pK14rc0soPrqzQ8pPwLeaabzySDNf2P91ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQdrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmZkZmE1MjZkLTU3YzQtNGQ3MS1iMDRmLWI2NDI1MzEwMWUwNS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmRiNmU1MTVhLWYwMzAtNGE4OS05YjQzLWVkMjcwNzM2MzA5MHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBBk92WPIbW+t+HMh46RuVKG6na8JcSlMpi/TnWkBGmtaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggiRVlVMkwPmLmHdnIfJE/QmX7oWtTKToXKRI/ZlEjkX2iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggqD527e3rX7K59dxAPTzHz9Jx1fGNB7Vn6QTVkq23KJl0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQHZ3hVvFHH3Fe0zNeHj6wLCUOEnDEBYyGStxRl3zloMaPWWmQrXBrg4+pNuRVW3oSxv5ZPeAH1SgnZ2GV2P/X8g=</c2pa:manifest></metadata></svg>
+  </nav>
+
+  <header>
+    <h1 aria-label="La Réginade">La <span class="lettrine">R</span>éginade</h1>
+    <p>Les saveurs d’Afrique et d’Europe à la même table.</p>
+    <a class="bouton" href="#africain">Voir le menu</a>
+  </header>
+
+  <section id="africain">
+    <h2>Spécialité africaine</h2>
+    <p>Composez votre repas : un plat, une sauce et un accompagnement.</p>
+    <details>
+    <summary>Les plats</summary>
+    <div class="plat"><span>Riz</span><b>500 FCFA</b></div>
+    <div class="plat"><span>Foutou</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Placali</span><b>800 FCFA</b></div>
+    </details>
+    <details>
+    <summary>Les sauces</summary>
+    <div class="plat"><span>Sauce graine</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Sauce arachide</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Sauce gombo</span><b>800 FCFA</b></div>
+    <div class="plat"><span>Sauce claire</span><b>800 FCFA</b></div>
+    <div class="plat"><span>Sauce feuille</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Sauce aubergine</span><b>800 FCFA</b></div>
+    </details>
+    <details>
+    <summary>Les accompagnements</summary>
+    <div class="plat"><span>Viande de bœuf</span><b>1 500 FCFA</b></div>
+    <div class="plat"><span>Poisson frais</span><b>1 500 FCFA</b></div>
+    <div class="plat"><span>Poisson fumé</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Poulet</span><b>2 000 FCFA</b></div>
+    <div class="plat"><span>Crabes</span><b>1 500 FCFA</b></div>
+    </details>
+  </section>
+
+  <section id="europeen">
+    <h2>Spécialité européenne</h2>
+    <details>
+    <summary>Nos plats</summary>
+    <div class="plat"><span>Steak frites</span><b>5 000 FCFA</b></div>
+    <div class="plat"><span>Spaghetti à la bolognaise</span><b>3 500 FCFA</b></div>
+    <div class="plat"><span>Poulet rôti et purée</span><b>4 500 FCFA</b></div>
+    <div class="plat"><span>Pizza margherita</span><b>4 000 FCFA</b></div>
+    <div class="plat"><span>Salade César</span><b>3 000 FCFA</b></div>
+    </details>
+  </section>
+
+  <section id="boissons">
+    <h2>Boissons</h2>
+    <details>
+    <summary>Les eaux</summary>
+    <div class="plat"><span>Eau minérale 50 cl</span><b>500 FCFA</b></div>
+    <div class="plat"><span>Eau minérale 1,5 L</span><b>800 FCFA</b></div>
+    </details>
+    <details>
+    <summary>Les sodas et boissons sucrées</summary>
+    <div class="plat"><span>Coca-Cola</span><b>700 FCFA</b></div>
+    <div class="plat"><span>Fanta</span><b>700 FCFA</b></div>
+    <div class="plat"><span>Sprite</span><b>700 FCFA</b></div>
+    <div class="plat"><span>Yuki</span><b>700 FCFA</b></div>
+    <div class="plat"><span>Jus d’ananas</span><b>1 000 FCFA</b></div>
+    <div class="plat"><span>Jus de bissap</span><b>1 000 FCFA</b></div>
+    </details>
+  </section>
+
+  <section id="commande">
+    <h2>Votre commande</h2>
+    <ul id="recap"><li>Aucun article choisi.</li></ul>
+    <p><strong>Total : <span id="total">0</span> FCFA</strong></p>
+    <form id="envoi">
+      <label>Numéro de table<input id="table" inputmode="numeric" required></label>
+      <label>Précisions (facultatif)<textarea id="note" rows="2"></textarea></label>
+      <button class="bouton" type="submit">Envoyer ma commande</button>
+    </form>
+    <p id="message" role="status"></p>
+  </section>
+
+  <section id="infos">
+    <h2>Venez nous voir</h2>
+    <p>Ouvert du lundi au samedi, de 11 h à 22 h.</p>
+  </section>
+
+  <section id="localisation">
+    <h2>Notre localisation</h2>
+    <p><strong>Adresse :</strong> Cocody, Abidjan, Côte d’Ivoire (adresse fictive)</p>
+    <iframe title="Carte de localisation" loading="lazy"
+      src="https://www.google.com/maps?q=Cocody,+Abidjan&output=embed"
+      style="width:100%; height:320px; border:3px solid #e9d8a6; border-radius:8px;"></iframe>
+    <a class="bouton" href="https://www.google.com/maps/search/?api=1&query=Cocody%2C+Abidjan" target="_blank" rel="noopener">Ouvrir dans Google Maps</a>
+  </section>
+
+  <a id="panier" href="#commande">Voir ma commande (0) : 0 FCFA</a>
+
+  <footer>Démonstration Innov’Dev</footer>
+
+<script>
+  // Colle ici ta chaîne FormSubmit : les commandes arriveront par e-mail
+  const CODE_FORMSUBMIT = "e91d42a33745a97d84a5bb8670613ffb";
+
+  const articles = [...document.querySelectorAll(".plat")].map((ligne) => {
+    const article = {
+      nom: ligne.querySelector("span").textContent,
+      prix: Number(ligne.querySelector("b").textContent.replace(/\D/g, "")),
+      qte: 0
+    };
+    const zone = document.createElement("span");
+    zone.className = "qte";
+    zone.innerHTML = '<button type="button">−</button><output>0</output><button type="button">+</button>';
+    const [moins, plus] = zone.querySelectorAll("button");
+    moins.setAttribute("aria-label", "Retirer " + article.nom);
+    plus.setAttribute("aria-label", "Ajouter " + article.nom);
+    const changer = (pas) => {
+      article.qte = Math.max(0, article.qte + pas);
+      zone.querySelector("output").textContent = article.qte;
+      actualiser();
+    };
+    moins.onclick = () => changer(-1);
+    plus.onclick = () => changer(1);
+    ligne.append(zone);
+    return article;
+  });
+
+  const choisis = () => articles.filter((a) => a.qte > 0);
+  const total = () => choisis().reduce((s, a) => s + a.qte * a.prix, 0);
+  const lignes = () => choisis().map((a) => a.qte + " x " + a.nom + " = " + a.qte * a.prix + " FCFA");
+
+  function actualiser() {
+    const liste = lignes().length ? lignes() : ["Aucun article choisi."];
+    document.getElementById("recap").replaceChildren(...liste.map((texte) => {
+      const li = document.createElement("li");
+      li.textContent = texte;
+      return li;
+    }));
+    document.getElementById("total").textContent = total();
+    const nombre = choisis().reduce((s, a) => s + a.qte, 0);
+    document.getElementById("panier").textContent = "Voir ma commande (" + nombre + ") : " + total() + " FCFA";
+  }
+
+  document.getElementById("envoi").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const message = document.getElementById("message");
+    const bouton = e.target.querySelector("button");
+    if (!choisis().length) { message.textContent = "Choisissez au moins un article."; return; }
+    if (CODE_FORMSUBMIT.startsWith("COLLE_")) { message.textContent = "Envoi non configuré : la commande n’est pas partie."; return; }
+    bouton.disabled = true;
+    message.textContent = "Envoi de votre commande…";
+    const table = document.getElementById("table").value;
+    try {
+      const reponse = await fetch("https://formsubmit.co/ajax/" + CODE_FORMSUBMIT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "Commande La Réginade, table " + table,
+          Table: table,
+          Commande: lignes().join("\n"),
+          Total: total() + " FCFA",
+          "Précisions": document.getElementById("note").value
+        })
+      });
+      const resultat = await reponse.json();
+      if (!reponse.ok || String(resultat.success) !== "true") throw new Error(resultat.message);
+      e.target.reset();
+      articles.forEach((a) => { a.qte = 0; });
+      document.querySelectorAll(".qte output").forEach((o) => { o.textContent = "0"; });
+      actualiser();
+      message.textContent = "Merci, votre demande a été envoyée, vous serez servi dans un instant.";
+    } catch (erreur) {
+      message.textContent = "La commande n’est pas confirmée. Appelez un serveur.";
+      console.error(erreur);
+    } finally {
+      bouton.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
