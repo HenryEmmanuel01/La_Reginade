@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR codes des tables – La Réginade</title>
+<style>
+  :root { --creme:#fff8e7; --sable:#e9d8a6; --brun:#3b2f1a; --or:#b8860b; --bronze:#8a5a00; --trait:#b9a36a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--creme); color:var(--brun); font-family:"Trebuchet MS",Verdana,sans-serif; line-height:1.5; }
+  header { background:var(--sable); border-bottom:10px solid var(--or); padding:16px 6%; }
+  h1 { margin:0; font-family:Georgia,serif; font-size:1.6rem; }
+  .reglages { display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; padding:20px 6%; }
+  .reglages label { display:flex; flex-direction:column; gap:4px; font-weight:bold; }
+  .reglages input { font:inherit; padding:10px; border:1px solid var(--trait); border-radius:6px; background:#fff; }
+  #nom { width:220px; } #nb { width:100px; } #url { width:min(440px,90vw); }
+  button { font:inherit; font-weight:bold; cursor:pointer; border:0; border-radius:6px; padding:11px 18px; background:var(--brun); color:var(--creme); }
+  :focus-visible { outline:3px solid #7a3e00; outline-offset:3px; }
+  #erreur { margin:0 6%; color:#b3261e; font-weight:bold; }
+  .aide { margin:0 6% 8px; color:#6b5d4d; font-size:.95rem; }
+  #planche { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; padding:16px 6% 40px; }
+  .carte { background:#fff; border:2px solid var(--sable); border-top:8px solid var(--or); border-radius:8px; padding:14px; text-align:center; break-inside:avoid; page-break-inside:avoid; }
+  .carte .resto { font-family:Georgia,serif; font-size:1.1rem; font-weight:bold; }
+  .carte .table { font-family:Georgia,serif; font-size:1.9rem; font-weight:bold; color:var(--bronze); }
+  .carte svg { width:100%; max-width:190px; height:auto; display:block; margin:6px auto; }
+  .carte .consigne { font-weight:bold; }
+  .carte .lien { font-size:.65rem; color:#6b5d4d; word-break:break-all; margin-top:4px; }
+  @media print {
+    body { background:#fff; }
+    header, .reglages, .aide, #erreur { display:none !important; }
+    #planche { grid-template-columns:repeat(3,1fr); padding:0; gap:10px; }
+    .carte { border:1.5px solid #999; border-top:6px solid #000; }
+  }
+</style>
+</head>
+<body>
+<header><h1>QR codes des tables</h1></header>
+
+<form class="reglages" id="reglages">
+  <label>Nom du restaurant<input id="nom" value="La Réginade"></label>
+  <label>Nombre de tables<input id="nb" type="number" min="1" max="200" value="25"></label>
+  <label>Adresse du site<input id="url" type="url" value="https://henryemmanuel01.github.io/La_Reginade/"></label>
+  <button type="submit">Générer</button>
+  <button type="button" id="imprimer">Imprimer / PDF</button>
+</form>
+<p id="erreur" role="alert"></p>
+<p class="aide">Chaque QR ouvre le site avec le numéro de table déjà rempli. Si l’adresse du site change, il faut générer et réimprimer les QR.</p>
+
+<main id="planche"></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+  const planche = document.getElementById("planche");
+  const erreur = document.getElementById("erreur");
+
+  // Dessine le QR en SVG (noir sur blanc, plus fiable au scan)
+  function svgQR(texte, numero) {
+    const qr = qrcode(0, "M");
+    qr.addData(texte);
+    qr.make();
+    const n = qr.getModuleCount();
+    let d = "";
+    for (let r = 0; r < n; r++)
+      for (let c = 0; c < n; c++)
+        if (qr.isDark(r, c)) d += "M" + c + "," + r + "h1v1h-1z";
+    const t = n + 4;
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 ' + t + " " + t +
+      '" shape-rendering="crispEdges" role="img" aria-label="QR code de la table ' + numero + '">' +
+      '<rect x="-2" y="-2" width="' + t + '" height="' + t + '" fill="#fff"/>' +
+      '<path d="' + d + '" fill="#000"/></svg>';
+  }
+
+  function generer() {
+    erreur.textContent = "";
+    planche.replaceChildren();
+    if (typeof qrcode === "undefined") {
+      erreur.textContent = "La bibliothèque QR n’a pas pu se charger. Vérifie ta connexion Internet et recharge la page.";
+      return;
+    }
+    const nom = document.getElementById("nom").value.trim();
+    const nb = Math.min(200, Math.max(1, parseInt(document.getElementById("nb").value, 10) || 1));
+    let base = document.getElementById("url").value.trim();
+    if (!/^https?:\/\//i.test(base)) { erreur.textContent = "L’adresse du site doit commencer par https://"; return; }
+
+    for (let i = 1; i <= nb; i++) {
+      const lien = base + (base.includes("?") ? "&" : "?") + "table=" + i;
+      const carte = document.createElement("article");
+      carte.className = "carte";
+
+      const resto = document.createElement("div");
+      resto.className = "resto";
+      resto.textContent = nom;
+
+      const table = document.createElement("div");
+      table.className = "table";
+      table.textContent = "Table " + i;
+
+      const qr = document.createElement("div");
+      qr.innerHTML = svgQR(lien, i);
+
+      const consigne = document.createElement("div");
+      consigne.className = "consigne";
+      consigne.textContent = "Scannez pour commander";
+
+      const url = document.createElement("div");
+      url.className = "lien";
+      url.textContent = lien;
+
+      carte.append(resto, table, qr, consigne, url);
+      planche.append(carte);
+    }
+  }
+
+  document.getElementById("reglages").addEventListener("submit", e => { e.preventDefault(); generer(); });
+  document.getElementById("imprimer").addEventListener("click", () => window.print());
+  generer();
+</script>
+</body>
+</html>
