@@ -306,5 +306,13 @@
     bouton.disabled = false;
   });
 </script>
+ <script>
+  const numero = new URLSearchParams(location.search).get("table");
+  const champ = document.getElementById("table");
+  if (champ && numero) {
+    champ.defaultValue = numero;
+    champ.readOnly = true;
+  }
+</script>
 </body>
 </html>
