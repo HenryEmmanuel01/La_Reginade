@@ -185,8 +185,33 @@
 
   <footer>Démonstration Innov’Dev</footer>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxiiyuWD1b4fOixGQAbaLUpKaUC-ieZ3o",
+    authDomain: "la-reginade.firebaseapp.com",
+    projectId: "la-reginade",
+    storageBucket: "la-reginade.firebasestorage.app",
+    messagingSenderId: "515732888956",
+    appId: "1:515732888956:web:aec13bca6c23fdc03a18f9"
+  };
+
+  const db = getFirestore(initializeApp(firebaseConfig));
+
+  // Utilisée par le script de commande ci-dessous
+  window.enregistrerCommande = (commande) =>
+    addDoc(collection(db, "commandes"), {
+      ...commande,
+      status: "nouvelle",
+      createdAt: serverTimestamp()
+    });
+</script>
+
 <script>
-  // Colle ici ta chaîne FormSubmit : les commandes arriveront par e-mail
+  // Chaîne FormSubmit : les commandes arrivent aussi par e-mail (sauvegarde)
   const CODE_FORMSUBMIT = "e91d42a33745a97d84a5bb8670613ffb";
 
   const articles = [...document.querySelectorAll(".plat")].map((ligne) => {
@@ -233,35 +258,50 @@
     const message = document.getElementById("message");
     const bouton = e.target.querySelector("button");
     if (!choisis().length) { message.textContent = "Choisissez au moins un article."; return; }
-    if (CODE_FORMSUBMIT.startsWith("COLLE_")) { message.textContent = "Envoi non configuré : la commande n’est pas partie."; return; }
     bouton.disabled = true;
     message.textContent = "Envoi de votre commande…";
+
     const table = document.getElementById("table").value;
-    try {
-      const reponse = await fetch("https://formsubmit.co/ajax/" + CODE_FORMSUBMIT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          _subject: "Commande La Réginade, table " + table,
-          Table: table,
-          Commande: lignes().join("\n"),
-          Total: total() + " FCFA",
-          "Précisions": document.getElementById("note").value
-        })
-      });
-      const resultat = await reponse.json();
-      if (!reponse.ok || String(resultat.success) !== "true") throw new Error(resultat.message);
+    const note = document.getElementById("note").value;
+    const commande = {
+      table,
+      note,
+      items: choisis().map((a) => ({ nom: a.nom, qte: a.qte, prix: a.prix })),
+      total: total()
+    };
+
+    // 1) Cuisine (Firebase)
+    const versCuisine = Promise.resolve().then(() => window.enregistrerCommande(commande));
+
+    // 2) Sauvegarde par e-mail (FormSubmit)
+    const versEmail = fetch("https://formsubmit.co/ajax/" + CODE_FORMSUBMIT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: "Commande La Réginade, table " + table,
+        Table: table,
+        Commande: lignes().join("\n"),
+        Total: total() + " FCFA",
+        "Précisions": note
+      })
+    }).then((r) => r.json()).then((res) => {
+      if (String(res.success) !== "true") throw new Error(res.message);
+    });
+
+    const [cuisine, email] = await Promise.allSettled([versCuisine, versEmail]);
+    if (cuisine.status === "rejected") console.error("Firebase :", cuisine.reason);
+    if (email.status === "rejected") console.error("FormSubmit :", email.reason);
+
+    if (cuisine.status === "fulfilled" || email.status === "fulfilled") {
       e.target.reset();
       articles.forEach((a) => { a.qte = 0; });
       document.querySelectorAll(".qte output").forEach((o) => { o.textContent = "0"; });
       actualiser();
       message.textContent = "Merci, votre demande a été envoyée, vous serez servi dans un instant.";
-    } catch (erreur) {
+    } else {
       message.textContent = "La commande n’est pas confirmée. Appelez un serveur.";
-      console.error(erreur);
-    } finally {
-      bouton.disabled = false;
     }
+    bouton.disabled = false;
   });
 </script>
 </body>
